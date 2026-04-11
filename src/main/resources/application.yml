@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: langchain4j
+  profiles:
+    active: local
+langchain4j:
+  community:
+    dashscope:
+      chat-model:
+        model-name: qwen-max
+        api-key: <key>
+      embedding-model:
+        model-name: text-embedding-v2
+        api-key: <key>
+      streaming-chat-model:
+        model-name: qwen-max
+        api-key: <key>
+bigmodel:
+  api-key: <key>
+server:
+  port: 8081
