@@ -27,6 +27,7 @@ public class RagQdrantConfig {
                 .host("localhost")
                 .port(6334)
                 .collectionName("rag-study")
+
                 .build();
     }
 
