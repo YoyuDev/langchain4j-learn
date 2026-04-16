@@ -2,6 +2,7 @@ package cn.langchain4j.ai;
 
 import cn.langchain4j.ai.rag.RagConfig;
 import cn.langchain4j.ai.tools.JavaInfoTool;
+import cn.langchain4j.ai.tools.RagTool;
 import dev.langchain4j.mcp.McpToolProvider;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
@@ -47,8 +48,8 @@ public class AiCodeHelperServiceFactory {
                 .chatModel(qwenChatModel)
                 .chatMemory(chatMemory) // 会话记忆
                 .chatMemoryProvider(memoryId->MessageWindowChatMemory.withMaxMessages(10)) //每个会话独立存储
-                .contentRetriever(contentRetriever) // 内容检索 (启用 RAG)
-                .tools(new JavaInfoTool()) // 工具
+//                .contentRetriever(contentRetriever) // 内容检索 (启用 RAG)
+                .tools(new JavaInfoTool(), new RagTool()) // 工具
                 .toolProvider(mcpToolProvider) // mcp
                 .build();
         return aiCodeHelperService;

@@ -90,7 +90,7 @@ public class RagDataInitializer implements CommandLineRunner {
 
                         float[] vector = response.content().vector();
 
-                        //  核心校验（关键！！！）
+                        //  核心校验
                         if (vector == null || vector.length == 0) {
                             System.out.println("空向量，跳过: " + shortText(finalText));
                             skipped++;

@@ -27,7 +27,6 @@ public class AiController {
 
     @GetMapping(value = "/chat", produces = "text/event-stream")
     public Flux<ServerSentEvent<String>> chat(int memoryId, String message) {
-        System.out.println("【前端传入的 message】= " + message);
         if (message == null || message.isBlank()) {
             // 返回空的 Flux，拦截请求
             return Flux.empty();
