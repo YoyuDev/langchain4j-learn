@@ -91,6 +91,13 @@
             <version>1.13.0-beta23</version>
         </dependency>
 
+
+        <!-- Redis支持 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>3.1.5</version>
+        </dependency>
 <!--        test-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

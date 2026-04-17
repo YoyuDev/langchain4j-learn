@@ -1,5 +1,6 @@
 package cn.langchain4j.ai;
 
+import cn.langchain4j.ai.memory.RedisChatMemoryStore;
 import cn.langchain4j.ai.rag.RagConfig;
 import cn.langchain4j.ai.tools.JavaInfoTool;
 import cn.langchain4j.ai.tools.RagTool;
@@ -32,6 +33,9 @@ public class AiCodeHelperServiceFactory {
     private McpToolProvider mcpToolProvider;
 
     @Resource
+    private RedisChatMemoryStore redisChatMemoryStore;
+
+    @Resource
     private StreamingChatModel streamingChatModel;
 //    @Bean
 //    public AiCodeHelperService aiCodeHelperService(){
@@ -41,13 +45,21 @@ public class AiCodeHelperServiceFactory {
     @Bean
     public AiCodeHelperService aiCodeHelperService(){
         // 会话记忆
-        ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
+        // ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
         // 构建
         AiCodeHelperService aiCodeHelperService = AiServices.builder(AiCodeHelperService.class)
                 .streamingChatModel(streamingChatModel)
                 .chatModel(qwenChatModel)
-                .chatMemory(chatMemory) // 会话记忆
-                .chatMemoryProvider(memoryId->MessageWindowChatMemory.withMaxMessages(10)) //每个会话独立存储
+//                .chatMemory(chatMemory) // 会话记忆  内存
+//                .chatMemoryProvider(memoryId->MessageWindowChatMemory.withMaxMessages(10)) //每个会话独立存储
+                .chatMemoryProvider(memoryId ->
+                        MessageWindowChatMemory.builder()
+                                .id(memoryId)
+                                .maxMessages(10)
+                                .chatMemoryStore(redisChatMemoryStore) // Redis记忆
+                                .build()
+                )
+
 //                .contentRetriever(contentRetriever) // 内容检索 (启用 RAG)
                 .tools(new JavaInfoTool(), new RagTool()) // 工具
                 .toolProvider(mcpToolProvider) // mcp
